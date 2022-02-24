@@ -1,5 +1,8 @@
-const generatePasswordButton = document.getElementById(`generate`);
+const generatePasswordButton = document.getElementById('generate');
+const clipBoardIcon = document.getElementById('clipboard');
+
 generatePasswordButton.addEventListener("click", passwordGenerator);
+clipBoardIcon.addEventListener('click', copyResults);
 
 // Generator Main Functions
 function passwordGenerator() {
@@ -10,15 +13,14 @@ function passwordGenerator() {
   const symbolsBoolean = document.getElementById('symbols').checked;
 
   var selectedFunctions = methodRandomizer(upperCaseBoolean, lowerCaseBoolean, numbersBoolean, symbolsBoolean);
-  console.log(selectedFunctions);
+
   var resultArray = [];
 
   while (resultArray.length < passwordLength) {
 
     var functionNumber = randomNumber(selectedFunctions.length, 0);
-
     resultArray.push(selectedFunctions[functionNumber]());
-    // console.log()
+
   }
   document.getElementById('result').innerText = resultArray.join('');
 }
@@ -46,7 +48,13 @@ function methodRandomizer(uppercase, lowercase, numbers, symbols) {
   return methodArrays;
 
 }
+function copyResults() {
+  var resultsToCopy = document.getElementById('result');
+  // resultsToCopy.select();
 
+  navigator.clipboard.writeText(resultsToCopy.innerText);
+
+}
 // Generator functions
 function getUpperCaseLetter() {
   return String.fromCharCode(randomNumber(91, 65));
